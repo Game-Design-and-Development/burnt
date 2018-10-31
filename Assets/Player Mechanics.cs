@@ -4,8 +4,7 @@ using UnityEngine;
 
 public class PlayerMechanics : MonoBehaviour {
 
-    private bool pit = false; // If player is over pit, pit = true
-    private bool fire = false; // If player is hit by fire, fire = true
+    private bool hazard = false; // If player is over hazard, hazard = true
 
 
 	// Use this for initialization
