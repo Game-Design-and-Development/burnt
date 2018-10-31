@@ -32,16 +32,16 @@ public class playerController : MonoBehaviour {
 		
 		//actually translate object
 		
-		transform.translate(IN);
+		transform.Translate(IN);
 	}
 	
 	void read_input()
 	{
 		IN.x = Input.GetAxis("horizontal");
-		if(Math.Abs(IN.x) < DIRECTIONAL_DEADZONE)
+		if(System.Math.Abs(IN.x) < DIRECTIONAL_DEADZONE)
 			IN.x = zero_speed;
 		IN.y = Input.GetAxis("vertical");
-		if(Math.Abs(IN.y) < DIRECTIONAL_DEADZONE)
+		if(System.Math.Abs(IN.y) < DIRECTIONAL_DEADZONE)
 			IN.y = zero_speed;
 	}
 }
