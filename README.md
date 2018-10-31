@@ -8,3 +8,7 @@
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~
 2018 fall semester's game project
+
+
+basic utility:
+Unity version: 2018.2.11f1
