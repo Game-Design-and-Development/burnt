@@ -90,10 +90,10 @@ public class s_PlayerController : MonoBehaviour {
 	
 	void read_input()
 	{
-		IN.x = Input.GetAxis("horizontal");
+		IN.x = Input.GetAxis("Horizontal");
 		if(Mathf.Abs(IN.x) < DIRECTIONAL_DEADZONE)
 			IN.x = zero_speed;
-		IN.y = Input.GetAxis("vertical");
+		IN.y = Input.GetAxis("Vertical");
 		if(Mathf.Abs(IN.y) < DIRECTIONAL_DEADZONE)
 			IN.y = zero_speed;
 	}
