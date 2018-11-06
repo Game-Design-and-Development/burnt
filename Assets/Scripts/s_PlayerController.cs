@@ -57,7 +57,9 @@ public class s_PlayerController : MonoBehaviour {
 			for(int i = 0; i < hits; i++)
 			{
 				//find the length of the compnent of the vector that is parrallel to the norm of the collision: subtract that from our movement vector
-				IN = IN - hitbuffer[i].normal * speed * hitbuffer[i].fraction;
+				IN -= Vector2.Dot(IN, hitbuffer[i].normal) * hitbuffer[i].normal * hitbuffer[i].fraction; //subtract the projection of 
+				//IN -= (hitbuffer[i].normal * -speed * hitbuffer[i].fraction);
+				//IN *= zero_speed;
 			}
 		}
 		
@@ -85,7 +87,7 @@ public class s_PlayerController : MonoBehaviour {
 		
 		//actually translate object
 		
-		transform.Translate(IN);
+		collision_detector.MovePosition(IN);
 	}
 	
 	void read_input()
