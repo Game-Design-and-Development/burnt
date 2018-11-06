@@ -14,11 +14,11 @@ TagManager:
   - UI
   - 
   - 
-  - 
-  - 
-  - 
-  - 
-  - 
+  - Hazard
+  - Wall
+  - Enemy
+  - Goal
+  - Player
   - 
   - 
   - 

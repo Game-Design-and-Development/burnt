@@ -9,35 +9,40 @@ using UnityEngine;
  * @author Ryan Thorne
  */
 
-public class playerController : MonoBehaviour {
+public class s_PlayerController : MonoBehaviour {
 
 	//speed/directional values
-	Vector3 IN;
+	Vector2 IN;
 	public uint MAX_DIRECTIONAL_SPEED; // all caps should be readonly, unsure if i can get away with it at this point :)
 	public float DIRECTIONAL_DEADZONE;
 	protected float zero_speed = 0.0f;
 	
 	
 	//collision data
-	protected ContactFilter2D l_enemy;
-	protected ContactFilter2D l_wall;
-	protected ContactFilter2D l_goal;
-	protected ContactFilter2D l_hazard;
+	protected LayerMask l_enemy;
+	protected LayerMask l_wall;
+	protected LayerMask l_goal;
+	protected LayerMask l_hazard;
 	protected RaycastHit2D[] hitbuffer;
 	protected Rigidbody2D collision_detector = null;
+	protected ContactFilter2D filter = new ContactFilter2D();
 
 	//using onEnable in case object is not created as sscene starts?
 	void OnEnable()
     {
         collision_detector = GetComponent<Rigidbody2D> ();
 		hitbuffer = new RaycastHit2D[16];
+		l_enemy = LayerMask.GetMask("Enemy");
+		l_wall = LayerMask.GetMask("Wall");
+		l_goal = LayerMask.GetMask("Goal");
+		l_hazard = LayerMask.GetMask("Hazard");
     }
 	
 	// Update is called once per frame
 	void Update () {
 		read_input();
 		//refine movement
-		uint speed = Time.deltaTime * MAX_DIRECTIONAL_SPEED;
+		float speed = Time.deltaTime * MAX_DIRECTIONAL_SPEED;
 		IN *= speed;
 		
 		//resolve collisions
@@ -45,23 +50,33 @@ public class playerController : MonoBehaviour {
 		int hits;
 		//3 collisions: with enemies/hazards (dynamic), with walls, (cancel move), with goals (triggering)
 		
-		if(hits = collision_detector.Cast(IN , l_wall, hitbuffer, speed) > 0)
+		filter.SetLayerMask(l_wall);
+		if((hits = collision_detector.Cast(IN , filter, hitbuffer, speed)) > 0)
 		//collision with wall means we can cozy up to it and then cancel movement parrallel to the collision direction
 		{
 			for(int i = 0; i < hits; i++)
 			{
 				//find the length of the compnent of the vector that is parrallel to the norm of the collision: subtract that from our movement vector
-				IN -= hitbuffer[i].normal * speed * hitbuffer[i].fraction;
+				IN = IN - hitbuffer[i].normal * speed * hitbuffer[i].fraction;
 			}
 		}
 		
-		if(hits = collision_detector.Cast(IN , l_enemy, hitbuffer, speed) > 0)
+		filter.SetLayerMask(l_enemy);
+		if((hits = collision_detector.Cast(IN , filter, hitbuffer, speed)) > 0)
 		//resolve enemy collision results on movement
 		{
 			
 		}
 		
-		if(hits = collision_detector.Cast (IN, l_goal, hitbuffer, speed) > 0)
+		filter.SetLayerMask(l_hazard);
+		if((hits = collision_detector.Cast (IN, filter, hitbuffer, speed)) > 0)
+		{
+			
+		}
+		
+		
+		filter.SetLayerMask(l_goal);
+		if((hits = collision_detector.Cast (IN, filter, hitbuffer, speed)) > 0)
 		{
 			
 		}
