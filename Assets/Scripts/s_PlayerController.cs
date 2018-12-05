@@ -60,6 +60,8 @@ public class s_PlayerController : MonoBehaviour {
 				IN -= Vector2.Dot(IN, hitbuffer[i].normal) * hitbuffer[i].normal * hitbuffer[i].fraction; //subtract the projection of 
 				//IN -= (hitbuffer[i].normal * -speed * hitbuffer[i].fraction);
 				//IN *= zero_speed;
+				Debug.DrawRay(new Vector3(0,0,0), IN, Color.blue);
+				Debug.DrawRay(new Vector3(0,0,0), hitbuffer[i].normal, Color.white);
 			}
 		}
 		
@@ -86,13 +88,15 @@ public class s_PlayerController : MonoBehaviour {
 		//result 
 		
 		//actually translate object
-		
-		collision_detector.MovePosition(IN);
+		Debug.DrawRay(new Vector3(0,0,0), IN, Color.blue);
+		transform.Translate(IN);
+		//collision_detector.MovePosition(IN);
 		//cancel movement in direction a?
 	}
 	
 	void OnCollisionEnter(Collision collision)
     {
+		Debug.Log("colliding!");
         // Debug-draw all contact points and normals
         foreach (ContactPoint contact in collision.contacts)
         {
