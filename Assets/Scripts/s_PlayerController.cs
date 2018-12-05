@@ -88,7 +88,17 @@ public class s_PlayerController : MonoBehaviour {
 		//actually translate object
 		
 		collision_detector.MovePosition(IN);
+		//cancel movement in direction a?
 	}
+	
+	void OnCollisionEnter(Collision collision)
+    {
+        // Debug-draw all contact points and normals
+        foreach (ContactPoint contact in collision.contacts)
+        {
+            Debug.DrawRay(contact.point, contact.normal, Color.white);
+        }
+    }
 	
 	void read_input()
 	{
