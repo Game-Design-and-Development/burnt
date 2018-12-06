@@ -42,6 +42,7 @@ public class s_PlayerController : MonoBehaviour {
 	void Update () {
 		read_input();
 		//refine movement
+		IN = IN.Normalize();
 		float speed = Time.deltaTime * MAX_DIRECTIONAL_SPEED;
 		IN *= speed;
 		
