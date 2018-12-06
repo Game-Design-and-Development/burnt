@@ -16,6 +16,7 @@ public class s_PlayerController : MonoBehaviour {
 	public uint MAX_DIRECTIONAL_SPEED; // all caps should be readonly, unsure if i can get away with it at this point :)
 	public float DIRECTIONAL_DEADZONE;
 	protected float zero_speed = 0.0f;
+	boolean facing_right;
 	
 	
 	//collision data
@@ -42,6 +43,7 @@ public class s_PlayerController : MonoBehaviour {
 	void Update () {
 		read_input();
 		//refine movement
+		IN = IN.Normalize();
 		float speed = Time.deltaTime * MAX_DIRECTIONAL_SPEED;
 		IN *= speed;
 		
@@ -60,8 +62,8 @@ public class s_PlayerController : MonoBehaviour {
 				IN -= Vector2.Dot(IN, hitbuffer[i].normal) * hitbuffer[i].normal * hitbuffer[i].fraction; //subtract the projection of 
 				//IN -= (hitbuffer[i].normal * -speed * hitbuffer[i].fraction);
 				//IN *= zero_speed;
-				Debug.DrawRay(new Vector3(0,0,0), IN, Color.blue);
-				Debug.DrawRay(new Vector3(0,0,0), hitbuffer[i].normal, Color.white);
+				Debug.DrawRay(Vector3.zero, IN, Color.blue);
+				Debug.DrawRay(Vector3.zero, hitbuffer[i].normal, Color.white);
 			}
 		}
 		
@@ -90,6 +92,12 @@ public class s_PlayerController : MonoBehaviour {
 		//actually translate object
 		Debug.DrawRay(new Vector3(0,0,0), IN, Color.blue);
 		transform.Translate(IN);
+		
+		//determine if character moved to right this frame
+		if(IN.x > zero_speed)
+			facing_right = true;
+		else if(IN.x < - zero_speed)
+			facing_right = false;
 		//collision_detector.MovePosition(IN);
 		//cancel movement in direction a?
 	}
