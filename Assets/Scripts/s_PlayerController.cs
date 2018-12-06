@@ -16,6 +16,7 @@ public class s_PlayerController : MonoBehaviour {
 	public uint MAX_DIRECTIONAL_SPEED; // all caps should be readonly, unsure if i can get away with it at this point :)
 	public float DIRECTIONAL_DEADZONE;
 	protected float zero_speed = 0.0f;
+	boolean facing_right;
 	
 	
 	//collision data
@@ -91,6 +92,12 @@ public class s_PlayerController : MonoBehaviour {
 		//actually translate object
 		Debug.DrawRay(new Vector3(0,0,0), IN, Color.blue);
 		transform.Translate(IN);
+		
+		//determine if character moved to right this frame
+		if(IN.x > zero_speed)
+			facing_right = true;
+		else if(IN.x < - zero_speed)
+			facing_right = false;
 		//collision_detector.MovePosition(IN);
 		//cancel movement in direction a?
 	}
