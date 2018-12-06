@@ -15,8 +15,9 @@ public class s_PlayerController : MonoBehaviour {
 	Vector2 IN;
 	public uint MAX_DIRECTIONAL_SPEED; // all caps should be readonly, unsure if i can get away with it at this point :)
 	public float DIRECTIONAL_DEADZONE;
-	protected float zero_speed = 0.0f;
-	boolean facing_right;
+	protected float zero_speed = 0.001f;
+	private bool facing_right;
+	private bool is_moving;
 	
 	
 	//collision data
@@ -28,6 +29,11 @@ public class s_PlayerController : MonoBehaviour {
 	protected Rigidbody2D collision_detector = null;
 	protected ContactFilter2D filter = new ContactFilter2D();
 
+	//getters
+	public boolean is_right() {return facing_right;}
+	
+	public boolean is_moving() {return is_moving;}
+	
 	//using onEnable in case object is not created as sscene starts?
 	void OnEnable()
     {
@@ -94,14 +100,20 @@ public class s_PlayerController : MonoBehaviour {
 		transform.Translate(IN);
 		
 		//determine if character moved to right this frame
-		if(IN.x > zero_speed)
+		if(IN.x >= zero_speed)
 			facing_right = true;
-		else if(IN.x < - zero_speed)
+		else if(IN.x <= - zero_speed)
 			facing_right = false;
+		
+		//check if player has moved this frame;
+		if(IN.x <= zero_speed && IN.x >= - zero_speed)
+			is_moving = false;
+		else is_moving = true;
 		//collision_detector.MovePosition(IN);
 		//cancel movement in direction a?
 	}
 	
+	//testing purposes, seems to not register?
 	void OnCollisionEnter(Collision collision)
     {
 		Debug.Log("colliding!");
